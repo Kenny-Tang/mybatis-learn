@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="system.properties">
+        <property name="username" value="Kenny" />
+    </properties>
+    <!-- 启用Entity与column自动对应 -->
+    <settings>
+        <setting name="logImpl" value="SLF4J" />
+        <!-- -->
+        <setting name="vfsImpl"
+            value="org.apache.ibatis.io.SelfVFS" />
+    </settings>
+    <!-- MyConfig config = new MyConfig(JdbcDriver.MySQL, "jdbc:Mysql://127.0.0.1:3306/kenny", 
+        "root", "123456", "order", "com.github.tky") ; -->
+    <typeAliases>
+        <typeAlias type="com.tky.ibatis.model.User" alias="typealias_user" />
+        <package name="com.tky.ibatis.model" />
+    </typeAliases>
+
+    <plugins>
+        <!-- 分页 -->
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <property name="dialect" value="mysql" />
+            <!-- 该参数默认为false -->
+            <!-- 设置为true时，会将RowBounds第一个参数offset当成pageNum页码使用 -->
+            <!-- 和startPage中的pageNum效果一样 -->
+            <property name="offsetAsPageNum" value="true" />
+
+            <!-- 该参数默认为false -->
+            <!-- 设置为true时，使用RowBounds分页会进行count查询 -->
+            <property name="rowBoundsWithCount" value="true" />
+
+            <!-- 设置为true时，如果pageSize=0或者RowBounds.limit = 0就会查询出全部的结果 -->
+            <!-- （相当于没有执行分页查询，但是返回结果仍然是Page类型） -->
+            <property name="pageSizeZero" value="false" />
+
+            <!-- 3.3.0版本可用 - 分页参数合理化，默认false禁用 -->
+            <!-- 启用合理化时，如果pageNum<1会查询第一页，如果pageNum>pages会查询最后一页 -->
+            <!-- 禁用合理化时，如果pageNum<1或pageNum>pages会返回空数据 -->
+            <property name="reasonable" value="true" />
+
+            <!-- 3.5.0版本可用 - 为了支持startPage(Object params)方法 -->
+            <!-- 增加了一个`params`参数来配置参数映射，用于从Map或ServletRequest中取值 -->
+            <!-- 可以配置pageNum,pageSize,count,pageSizeZero,reasonable,不配置映射的用默认值 -->
+            <!-- 不理解该含义的前提下，不要随便复制该配置 -->
+            <property name="params"
+                value="pageNum=start;pageSize=limit;" />
+        </plugin>
+    </plugins>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <!-- <property name="driver" value="com.mysql.jdbc.Driver"/> -->
+                <property name="driver"
+                    value="com.mysql.cj.jdbc.Driver" />
+                <!-- The server time zone value 'ÖÐ¹ú±ê×¼Ê±¼ä' is unrecognized 
+                    or represents more than one time zone. 在配置文件中的 连接字符串后面加上?serverTimezone=UTC 
+                    UTC是统一标准世界时间 完整的连接字符串示例：jdbc:mysql://localhost:3306/hello?serverTimezone=UTC 
+                    如果指定使用北京时区，需要写成CST The reference to entity "characterEncoding" must end with 
+                    the ';' delimiter // 我们在xml文件中不能直接写 ‘ & ’ 字符，而需要写成 ‘ &amp; ’ -->
+                <property name="url"
+                    value="jdbc:mysql://localhost:3306/kenny?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=CST" />
+                <property name="username" value="root" />
+                <property name="password" value="123456" />
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="com/tky/ibatis/mapper/UserMapper.xml" />
+    </mappers>
+</configuration>
