@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSession;
@@ -61,6 +62,22 @@ public class SqlSessionFactoryTest {
             logger.info(interceptor.toString());
         }
     }
+    
+    @Test
+    public void testEnvironmentsElement() {
+      Configuration configuration = sqlSessionFactory.getConfiguration() ;
+      Environment environment = configuration.getEnvironment();
+      logger.info("dataSource: {} .",environment.getDataSource());
+      // current databaseId : mysql.
+    }
+    
+    @Test
+    public void testDatabaseIdProvider() {
+      Configuration configuration = sqlSessionFactory.getConfiguration() ;
+      String databaseId = configuration.getDatabaseId();
+      logger.info("current databaseId : {}.", databaseId);
+    }
+    
     @Test
     public void testMapper() throws Exception {
         SqlSession sqlSession = sqlSessionFactory.openSession() ;

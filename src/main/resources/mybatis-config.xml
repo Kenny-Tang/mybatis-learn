@@ -5,15 +5,11 @@
     <properties resource="system.properties">
         <property name="username" value="Kenny" />
     </properties>
-    <!-- 启用Entity与column自动对应 -->
     <settings>
         <setting name="logImpl" value="SLF4J" />
-        <!-- -->
         <setting name="vfsImpl"
             value="org.apache.ibatis.io.SelfVFS" />
     </settings>
-    <!-- MyConfig config = new MyConfig(JdbcDriver.MySQL, "jdbc:Mysql://127.0.0.1:3306/kenny", 
-        "root", "123456", "order", "com.github.tky") ; -->
     <typeAliases>
         <typeAlias type="com.tky.ibatis.model.User" alias="typealias_user" />
         <package name="com.tky.ibatis.model" />
@@ -50,25 +46,34 @@
         </plugin>
     </plugins>
 
+
     <environments default="development">
         <environment id="development">
-            <transactionManager type="JDBC"></transactionManager>
+            <transactionManager type="managed"></transactionManager>
             <dataSource type="POOLED">
-                <!-- <property name="driver" value="com.mysql.jdbc.Driver"/> -->
-                <property name="driver"
-                    value="com.mysql.cj.jdbc.Driver" />
-                <!-- The server time zone value 'ÖÐ¹ú±ê×¼Ê±¼ä' is unrecognized 
-                    or represents more than one time zone. 在配置文件中的 连接字符串后面加上?serverTimezone=UTC 
-                    UTC是统一标准世界时间 完整的连接字符串示例：jdbc:mysql://localhost:3306/hello?serverTimezone=UTC 
-                    如果指定使用北京时区，需要写成CST The reference to entity "characterEncoding" must end with 
-                    the ';' delimiter // 我们在xml文件中不能直接写 ‘ & ’ 字符，而需要写成 ‘ &amp; ’ -->
+                <property name="driver" value="com.mysql.cj.jdbc.Driver" />
+                    <!--     
+                      <property name="driver" value="com.mysql.jdbc.Driver"/>
+                      The server time zone value 'ÖÐ¹ú±ê×¼Ê±¼ä' is unrecognized 
+                      or represents more than one time zone. 在配置文件中的 连接字符串后面加上?serverTimezone=UTC 
+                      UTC是统一标准世界时间 完整的连接字符串示例：jdbc:mysql://localhost:3306/hello?serverTimezone=UTC 
+                                           如果指定使用北京时区，需要写成CST The reference to entity "characterEncoding" must end with the ';' delimiter 
+                      // 我们在xml文件中不能直接写 ‘ & ’ 字符，而需要写成 ‘ &amp; ’
+                      -->
                 <property name="url"
                     value="jdbc:mysql://localhost:3306/kenny?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=CST" />
                 <property name="username" value="root" />
                 <property name="password" value="123456" />
             </dataSource>
         </environment>
-    </environments>
+    </environments> 
+    
+    <!-- 支持的数据库列表 -->
+    <databaseIdProvider type="DB_VENDOR">
+      <property name="Oracle" value="oracle"/>
+      <property name="MySQL" value="mysql"/>
+      <property name="DB2" value="db2"/>
+    </databaseIdProvider>
     <mappers>
         <mapper resource="com/tky/ibatis/mapper/UserMapper.xml" />
     </mappers>
