@@ -69,12 +69,16 @@
     </environments> 
     
     <!-- 支持的数据库列表 -->
-    <databaseIdProvider type="DB_VENDOR">
+<!--     <databaseIdProvider type="DB_VENDOR">
       <property name="Oracle" value="oracle"/>
       <property name="MySQL" value="mysql"/>
       <property name="DB2" value="db2"/>
-    </databaseIdProvider>
+    </databaseIdProvider> -->
+    
     <mappers>
-        <mapper resource="com/tky/ibatis/mapper/UserMapper.xml" />
+      <mapper resource="com/tky/ibatis/mapper/UserMapper.xml" />
+      <mapper class="com.tky.ibatis.mapper.UserMapper" />
+      <mapper url="file:///E:/Kenny/GitHub/mybatis-learn/src/main/resources/com/tky/ibatis/mapper/UserMapper.xml" />
+      <package name="com.tky.ibatis.mapper"/>
     </mappers>
 </configuration>
