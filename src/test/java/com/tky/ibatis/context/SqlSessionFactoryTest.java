@@ -23,27 +23,23 @@ import com.github.tky.kutils.Dates;
 import com.tky.ibatis.mapper.UserMapper;
 import com.tky.ibatis.model.User;
 
+/**
+ * For
+ * <a href="https://blog.csdn.net/TangKenny/article/details/112863394">MyBatis
+ * 源码解读（一）配置文件加载解析</a>
+ * 
+ * @author Kenny
+ *
+ */
 public class SqlSessionFactoryTest {
 	Logger logger = LoggerFactory.getLogger(SqlSessionFactoryTest.class);
 	SqlSessionFactory sqlSessionFactory;
 
-	// @Before
-	public void setUp() {
-		String resource = "com/tky/environments/mybatis-config.xml";
-		try (Reader reader = Resources.getResourceAsReader(resource)) {
-			sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-			logger.info(sqlSessionFactory.toString());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	@Test
-	public void test() {
+	public void tesCreateSessionFactory() {
 		String resource = "com/tky/environments/mybatis-config.xml";
 		try (Reader reader = Resources.getResourceAsReader(resource)) {
 			sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-			System.err.println(sqlSessionFactory.getConfiguration());
 			logger.info(sqlSessionFactory.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
