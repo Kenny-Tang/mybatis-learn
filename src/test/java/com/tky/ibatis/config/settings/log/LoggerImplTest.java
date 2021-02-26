@@ -1,6 +1,6 @@
 package com.tky.ibatis.config.settings.log;
 
-import java.util.Properties;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -10,13 +10,13 @@ public class LoggerImplTest extends BaseTest {
 
 	@Override
 	public String getResource() {
-		return "com/tky/environments/mybatis-config.xml";
+		return "com/tky/settings/log/mybatis-config.xml";
 	}
 
 	@Test
-	public void testProperties() {
-		Properties properties = sqlSessionFactory.getConfiguration().getVariables();
-		logger.info(properties.toString());
+	public void log() {
+		Class<?> logImpl = sqlSessionFactory.getConfiguration().getLogImpl();
+		assertEquals("Slf4jImpl", logImpl.getSimpleName());
 	}
 
 }
