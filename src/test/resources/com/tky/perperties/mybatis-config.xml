@@ -5,4 +5,9 @@
     <properties resource="com/tky/perperties/system.properties">
         <property name="username" value="Kenny" />
     </properties>
+    
+    <typeAliases>
+        <typeAlias type="com.tky.ibatis.model.User" alias="typealias_user" />
+        <package name="com.tky.ibatis.model" />
+    </typeAliases>
 </configuration>
